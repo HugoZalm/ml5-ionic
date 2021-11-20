@@ -1,19 +1,45 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      {{title}}
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="takePhoto()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">{{title}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="takePhoto()">
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <img src="assets/images/bird.png" id="image" #image />
-  </div>
+  <ion-list>
+
+    <ion-item *ngIf="!hasPhoto()" lines="none">
+      <img src="{{images[0]}}" id="image" />
+    </ion-item>
+    <ion-item *ngIf="hasPhoto()" lines="none">
+      <img src="{{rawImage.dataUrl}}" id="image" />
+    </ion-item>
+    <ion-item *ngFor="let result of results" lines="none">
+      <span>{{result}}</span>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-button color="light" expand="block" disabled="{{!hasPhoto()}}" (click)="classify()">
+        <ion-icon name="search-outline"></ion-icon>
+        {{search}}
+      </ion-button>
+    </ion-item>
+
+  </ion-list>
 </ion-content>
