@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import * as ml5 from 'ml5';
 declare let ml5: any;
 
 @Injectable({
@@ -7,11 +6,14 @@ declare let ml5: any;
 })
 export class AiService {
 
-  public modelReady;
+  public classifierReady;
+  public detectorReady;
   private classifier;
+  private detector;
 
   constructor() {
-    this.classifier = ml5.imageClassifier('MobileNet', this.modelLoaded);
+    this.classifier = ml5.imageClassifier('MobileNet', this.classifierLoaded);
+    this.detector = ml5.objectDetector('cocossd', this.detectorLoaded);
   }
 
   public classify(image): Promise<string[]> {
@@ -31,9 +33,24 @@ export class AiService {
     .catch((error) => console.log(error));
   }
 
-  private modelLoaded() {
-    this.modelReady = true;
+  public detect(image): Promise<string[]> {
+    const res = [];
+    return ml5.objectDetector('cocossd')
+    .then(detector => detector.detect(image))
+    .then(
+      // error => {
+      //   console.log(error);
+      // },
+      results => results)
+    .catch((error) => console.log(error));
   }
 
+  private classifierLoaded() {
+    this.classifierReady = true;
+  }
+
+  private detectorLoaded() {
+    this.detectorReady = true;
+  }
 
 }

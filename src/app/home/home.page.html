@@ -4,6 +4,9 @@
       {{title}}
     </ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="loadPhoto()">
+        <ion-icon name="image-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="takePhoto()">
         <ion-icon name="camera-outline"></ion-icon>
       </ion-button>
@@ -23,23 +26,5 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list>
-
-    <ion-item *ngIf="!hasPhoto()" lines="none">
-      <img src="{{images[0]}}" id="image" />
-    </ion-item>
-    <ion-item *ngIf="hasPhoto()" lines="none">
-      <img src="{{rawImage.dataUrl}}" id="image" />
-    </ion-item>
-    <ion-item *ngFor="let result of results" lines="none">
-      <span>{{result}}</span>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-button color="light" expand="block" disabled="{{!hasPhoto()}}" (click)="classify()">
-        <ion-icon name="search-outline"></ion-icon>
-        {{search}}
-      </ion-button>
-    </ion-item>
-
-  </ion-list>
+  <app-image [img]="img" [obj]="obj"></app-image>
 </ion-content>
